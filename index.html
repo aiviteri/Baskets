@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baskets of Hope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app">
+    <!-- Homepage (default) -->
+    <section id="home" class="page active">
+      <div class="container home-container">
+        <h1 class="main-title">Baskets of Hope</h1>
+        <p class="tagline">Together, we can bring hope. One basket at a time</p>
+        <div class="home-buttons">
+          <button class="primary-btn" onclick="goToBaskets('donee')">Build a Basket</button>
+          <button class="primary-btn" onclick="goToBaskets('donor')">Donate a Basket</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Basket Selection Page -->
+    <section id="basket-selection" class="page">
+      <div class="container">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <h2>Select a Basket</h2>
+        <div id="basket-list" class="basket-list"></div>
+      </div>
+    </section>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="modal-overlay">
+      <div class="modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+          <img src="https://img.icons8.com/color/96/000000/filled-like.png" alt="Thank you" class="modal-img"/>
+          <h3>Thank you!</h3>
+          <p>Your basket will bring hope to someone in need.</p>
+          <div id="ai-message" class="ai-message"></div>
+          <button class="primary-btn" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Stories Section -->
+    <section id="user-stories" class="user-stories">
+      <h2>User Stories</h2>
+      <ul>
+        <li>
+          <strong>Donator:</strong> “As a donator, I want to view the most popular necessities before sponsoring what basket to donate. So that I can reduce the amount of people who need that certain basket.”
+        </li>
+        <li>
+          <strong>User:</strong> “As a user, I want to use AI to help me discover what different necessities from the provided categories I need for my basket. So I can request them quickly and easily.”
+        </li>
+      </ul>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
