@@ -1,0 +1,262 @@
+:root {
+  --pink: #eab1a1;
+  --sand: #ecccad;
+  --white: #e8e3bf;
+  --darksand: #e2d59b;
+  --shadow: rgba(120, 90, 60, 0.08);
+  --font: 'Quicksand', Arial, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--white);
+  font-family: var(--font);
+  min-height: 100vh;
+  color: #443d2e;
+}
+
+main {
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+  animation: fadein 0.4s;
+}
+
+@keyframes fadein {
+  0% { opacity: 0;}
+  100% {opacity: 1;}
+}
+
+/* Homepage */
+.home-container {
+  text-align: center;
+  margin-top: 6vh;
+}
+
+.main-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--pink);
+  margin-bottom: 0.5em;
+  letter-spacing: 1px;
+}
+
+.tagline {
+  font-size: 1.3rem;
+  color: #756b54;
+  margin-bottom: 2.5em;
+  font-weight: 500;
+}
+
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.primary-btn {
+  background: var(--pink);
+  color: #564c41;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 2em;
+  padding: 0.8em 2.3em;
+  margin: 0.6em 0;
+  font-family: var(--font);
+  font-weight: 700;
+  box-shadow: 0 2px 12px var(--shadow);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.primary-btn:hover, .primary-btn:focus {
+  background: var(--darksand);
+  color: #2e2a21;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--pink);
+  font-size: 1.1em;
+  margin-bottom: 1em;
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 700;
+}
+
+/* Basket Cards */
+.basket-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2em;
+  margin-top: 1.5em;
+}
+
+.basket-card {
+  background: var(--sand);
+  border-radius: 1.2em;
+  box-shadow: 0 2px 14px var(--shadow);
+  padding: 1.3em 1.1em 1.4em 1.1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.16s;
+}
+
+.basket-card:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.basket-img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 1em;
+  border-radius: 0.8em;
+  background: var(--white);
+  border: 1.5px solid var(--darksand);
+}
+
+.basket-title {
+  font-size: 1.3em;
+  font-weight: 700;
+  margin-bottom: 0.2em;
+  color: var(--pink);
+}
+
+.basket-price {
+  font-size: 1em;
+  color: #7b675a;
+  margin-bottom: 0.7em;
+  font-weight: 500;
+}
+
+.basket-desc {
+  font-size: 1em;
+  margin-bottom: 0.5em;
+  color: #675b44;
+  text-align: left;
+  width: 95%;
+}
+
+.basket-items {
+  font-size: 0.96em;
+  margin-bottom: 1.1em;
+  color: #564c41;
+  padding-left: 1.1em;
+}
+
+.select-btn {
+  margin-top: auto;
+  width: 95%;
+}
+
+/* Modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(236, 204, 173, 0.93);
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: var(--white);
+  border-radius: 1.5em;
+  box-shadow: 0 8px 36px rgba(110,90,60,0.10);
+  width: 95vw;
+  max-width: 370px;
+  padding: 2.1em 1.2em 1.5em 1.2em;
+  text-align: center;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  right: 1em; top: 0.7em;
+  font-size: 1.6em;
+  color: var(--pink);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-content h3 {
+  margin: 0.6em 0 0.4em 0;
+  font-size: 1.3em;
+  color: var(--pink);
+}
+
+.modal-img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 0.2em;
+}
+
+.ai-message {
+  margin-top: 1.2em;
+  background: var(--sand);
+  border-left: 4px solid var(--pink);
+  border-radius: 0.6em;
+  font-size: 1em;
+  color: #5a4a3c;
+  padding: 0.7em 1em;
+  margin-bottom: 1em;
+}
+
+/* User Stories */
+.user-stories {
+  background: var(--darksand);
+  border-radius: 1.1em;
+  margin: 2.5em auto 0 auto;
+  max-width: 700px;
+  padding: 1.5em 1.1em;
+  box-shadow: 0 1px 8px var(--shadow);
+}
+
+.user-stories h2 {
+  font-size: 1.16em;
+  color: var(--pink);
+  margin-bottom: 0.7em;
+  font-weight: 700;
+}
+.user-stories ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.user-stories li {
+  margin-bottom: 0.7em;
+  font-size: 1.04em;
+  color: #443d2e;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .main-title { font-size: 2.0rem; }
+  .basket-list { grid-template-columns: 1fr; }
+  .container { padding: 1.1em 0.4em; }
+  .modal { padding: 1.3em 0.5em; }
+}
