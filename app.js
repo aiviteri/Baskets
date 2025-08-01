@@ -21,7 +21,8 @@ const baskets = [
       "Oatmeal (6 instant servings)",
       "Cooking oil (250 ml)"
     ],
-    ai: "AI Suggestion: Food baskets are in high demand in your area. Thank you for helping fight hunger!"
+    aiDonor: "AI Suggestion: Food baskets are in high demand in your area. Thank you for helping fight hunger!",
+    aiDonee: "AI Suggestion: This basket contains nutritious, easy-to-prepare items ideal for quick meals."
   },
   {
     id: "hygiene",
@@ -44,7 +45,8 @@ const baskets = [
       "Nail clippers (1 set)",
       "Body lotion (100 ml)"
     ],
-    ai: "AI Suggestion: Hygiene products are urgently needed in local shelters. Your donation makes a difference!"
+    aiDonor: "AI Suggestion: Hygiene products are urgently needed in local shelters. Your donation makes a difference!",
+    aiDonee: "AI Suggestion: This basket provides everything for staying clean and refreshed."
   },
   {
     id: "medicine",
@@ -67,7 +69,8 @@ const baskets = [
       "Face masks (5 pcs)",
       "Emergency contact card (blank)"
     ],
-    ai: "AI Suggestion: Medicine baskets are critical for families without easy access to healthcare. Your support can make a real difference in emergencies."
+    aiDonor: "AI Suggestion: Medicine baskets are critical for families without easy access to healthcare. Your support can make a real difference in emergencies.",
+    aiDonee: "AI Suggestion: Great for families who want to be prepared for minor health needs."
   },
   {
     id: "baby",
@@ -89,7 +92,8 @@ const baskets = [
       "Burp cloths (2)",
       "Disposable changing pads (2)"
     ],
-    ai: "AI Suggestion: Baby care items are highly requested by new parents in shelters. Your basket will bring comfort to both babies and caregivers."
+    aiDonor: "AI Suggestion: Baby care items are highly requested by new parents in shelters. Your basket will bring comfort to both babies and caregivers.",
+    aiDonee: "AI Suggestion: Contains the most requested baby essentials to ease caregiving."
   },
   {
     id: "custom",
@@ -103,52 +107,40 @@ const baskets = [
       "Medicine (first aid basics, pain relievers, vitamins)",
       "Baby care (diapers, wipes, formula, baby food)"
     ],
-    ai: "AI Suggestion: Consider adding hygiene and medicine items — these are among the most requested by community centers this month."
+    aiDonor: "AI Suggestion: Consider adding hygiene and medicine items — these are among the most requested by community centers this month.",
+    aiDonee: "AI Suggestion: Best choice if you need a mix of categories."
   }
 ];
 
-// Routing
-function goHome() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('home').classList.add('active');
-  window.scrollTo(0, 0);
-}
-function goToBaskets(mode) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('basket-selection').classList.add('active');
+// Mode: 'donor' or 'donee'
+let userMode = 'donor';
+
+function setMode(mode) {
+  userMode = mode;
   renderBaskets();
-  window.scrollTo(0, 0);
 }
 
-// Render baskets
 function renderBaskets() {
   const list = document.getElementById('basket-list');
   list.innerHTML = '';
+
   baskets.forEach(basket => {
     const div = document.createElement('div');
     div.className = 'basket-card';
 
-    // Basket image
     const img = document.createElement('img');
     img.className = 'basket-img';
     img.src = basket.img;
-    img.alt = basket.title + " image";
+    img.alt = basket.title + ' image';
 
-    // Title and price
     const title = document.createElement('div');
     title.className = 'basket-title';
     title.textContent = basket.title;
 
-    const price = document.createElement('div');
-    price.className = 'basket-price';
-    price.textContent = basket.price;
-
-    // Description
     const desc = document.createElement('div');
     desc.className = 'basket-desc';
     desc.textContent = basket.description;
 
-    // Items
     const items = document.createElement('ul');
     items.className = 'basket-items';
     basket.items.forEach(it => {
@@ -157,38 +149,105 @@ function renderBaskets() {
       items.appendChild(li);
     });
 
-    // Select button
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'ai-suggestion';
+    aiMsg.textContent = userMode === 'donor' ? basket.aiDonor : basket.aiDonee;
+
     const btn = document.createElement('button');
     btn.className = 'primary-btn select-btn';
-    btn.textContent = "Select Basket";
+    btn.textContent = userMode === 'donor' ? 'Select Basket to Donate' : 'Select Basket to Receive';
     btn.onclick = () => onSelectBasket(basket.id);
 
-    // Assemble
     div.appendChild(img);
     div.appendChild(title);
-    div.appendChild(price);
+    if (userMode === 'donor') {
+      const price = document.createElement('div');
+      price.className = 'basket-price';
+      price.textContent = basket.price;
+      div.appendChild(price);
+    }
     div.appendChild(desc);
     div.appendChild(items);
+    div.appendChild(aiMsg);
     div.appendChild(btn);
 
     list.appendChild(div);
   });
 }
 
-// On selecting a basket
 function onSelectBasket(basketId) {
   const basket = baskets.find(b => b.id === basketId);
-  document.getElementById('ai-message').textContent = basket ? basket.ai : "";
+  document.getElementById('ai-message').textContent = basket ? (userMode === 'donor' ? basket.aiDonor : basket.aiDonee) : '';
   document.getElementById('confirmation-modal').classList.add('active');
 }
 
-// Modal close
 function closeModal() {
   document.getElementById('confirmation-modal').classList.remove('active');
   goHome();
 }
 
-// Initial rendering
+function filterBaskets(query) {
+  const term = query.toLowerCase();
+  const list = document.getElementById('basket-list');
+  list.innerHTML = '';
+  baskets.filter(b =>
+    b.title.toLowerCase().includes(term) ||
+    b.description.toLowerCase().includes(term) ||
+    b.items.some(item => item.toLowerCase().includes(term))
+  ).forEach(renderFilteredBasket);
+}
+
+function renderFilteredBasket(basket) {
+  const div = document.createElement('div');
+  div.className = 'basket-card';
+
+  const img = document.createElement('img');
+  img.className = 'basket-img';
+  img.src = basket.img;
+  img.alt = basket.title + ' image';
+
+  const title = document.createElement('div');
+  title.className = 'basket-title';
+  title.textContent = basket.title;
+
+  const desc = document.createElement('div');
+  desc.className = 'basket-desc';
+  desc.textContent = basket.description;
+
+  const items = document.createElement('ul');
+  items.className = 'basket-items';
+  basket.items.forEach(it => {
+    const li = document.createElement('li');
+    li.textContent = it;
+    items.appendChild(li);
+  });
+
+  const aiMsg = document.createElement('div');
+  aiMsg.className = 'ai-suggestion';
+  aiMsg.textContent = userMode === 'donor' ? basket.aiDonor : basket.aiDonee;
+
+  const btn = document.createElement('button');
+  btn.className = 'primary-btn select-btn';
+  btn.textContent = userMode === 'donor' ? 'Select Basket to Donate' : 'Select Basket to Receive';
+  btn.onclick = () => onSelectBasket(basket.id);
+
+  div.appendChild(img);
+  div.appendChild(title);
+  if (userMode === 'donor') {
+    const price = document.createElement('div');
+    price.className = 'basket-price';
+    price.textContent = basket.price;
+    div.appendChild(price);
+  }
+  div.appendChild(desc);
+  div.appendChild(items);
+  div.appendChild(aiMsg);
+  div.appendChild(btn);
+
+  document.getElementById('basket-list').appendChild(div);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  goHome();
+  setMode('donor');
 });
+
